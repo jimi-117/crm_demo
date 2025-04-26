@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: postgres_crm
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: 'epicu_rennes'
+      POSTGRES_PASSWORD: 'epicu_rennes_super_secure_password_35'
+
+  backernd:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backernd_crm
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    
+volumes:
+  db-store:
